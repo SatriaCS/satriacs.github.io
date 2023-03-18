@@ -40,6 +40,7 @@
             </div>
         </div>
     </nav>
+
     <svg class="top" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
         <path fill="#f3f4f5" fill-opacity="1"
             d="M0,128L80,149.3C160,171,320,213,480,213.3C640,213,800,171,960,154.7C1120,139,1280,149,1360,154.7L1440,160L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z">
@@ -50,20 +51,29 @@
     <div class="container isi">
         <div class="row justify-content-center">
             <div class="col-md-6">
-                <form>
+                <div class="alert alert-warning alert-dismissible fade show d-none" role="alert">
+                    <strong>TERIMA KASIH!</strong> pesan anda sudah kami terima
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <form name='submit-to-google-sheet'>
                     <div class="mb-3">
                         <label for="nama" class="form-label">Nama</label>
-                        <input type="text" class="form-control" id="nama" aria-describedby="nama">
+                        <input type="text" class="form-control" id="nama" aria-describedby="nama" name="nama">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                            name="email">
                     </div>
                     <div class="mb-3">
                         <label for="pesan" class="form-label">Pesan</label>
-                        <textarea class="form-control" id="pesan" rows="3"></textarea>
+                        <textarea class="form-control" id="pesan" rows="3" name="pesan"></textarea>
                     </div>
-                    <button type="submit rounded-pill" class="btn baten">Submit</button>
+                    <button type="submit" class="btn baten btn-kirim">Submit</button>
+                    <button class="btn btn-primary baten btn-loading d-none" type="button" disabled>
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Loading...
+                    </button>
                 </form>
             </div>
         </div>
@@ -76,6 +86,35 @@
         crossorigin="anonymous"></script>
     <!-- font awesome -->
     <script src="https://kit.fontawesome.com/8ef3a8e20a.js" crossorigin="anonymous"></script>
+
+    <!-- form sheet -->
+    <script>
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbx6P3igkgG3n1LX_qDBCVcaCMcvih66eutklmpA47tpx-NRPkLJyqpgfxoHJBbOMF24Cg/exec'
+        const form = document.forms['submit-to-google-sheet'];
+        const btnKirim = document.querySelector('.btn-kirim');
+        const btnLoading = document.querySelector('.btn-loading');
+        const myAlert = document.querySelector('.alert');
+
+        form.addEventListener('submit', e => {
+            e.preventDefault()
+            // ketika tombol submit diklik
+            // tampilkan tombol loading, hilangkan tombol kirim
+            btnLoading.classList.toggle('d-none');
+            btnKirim.classList.toggle('d-none');
+            fetch(scriptURL, { method: 'POST', body: new FormData(form) })
+                .then(response => {
+                    // tampilkan tombol kirim, hilangkan tombol loading
+                    btnLoading.classList.toggle('d-none');
+                    btnKirim.classList.toggle('d-none');
+                    // tampilkan alert
+                    myAlert.classList.toggle('d-none');
+                    // reset form
+                    form.reset();
+                    console.log('Success!', response);
+                })
+                .catch(error => console.error('Error!', error.message))
+        })
+    </script>
 
 </body>
 
