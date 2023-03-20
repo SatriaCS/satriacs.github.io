@@ -49,12 +49,12 @@
     <!--isi -->
     <div class="container isi d-flex justify-content-center">
         <div class="row">
-            <div class="col-sm-4">
+            <div class="col-sm-4 Portfolio">
                 <a href="https://smkdutakaryakudus.sch.id/">
                     <div class="card" style="width: 18rem;">
-                        <img src="asset/img/project/1.jpg" class="card-img-top" alt="...">
+                        <img src="asset/img/project/1.jpg" class="card-img-top Portfolio-img" alt="...">
                         <div class="card-body">
-                            <h5 class="card-text text-center">SMK DUTA KARYA KUDUS</h5>
+                            <h5 class="card-text text-center Portfolio-text">SMK DUTA KARYA KUDUS</h5>
                         </div>
                     </div>
                 </a>
@@ -69,6 +69,16 @@
         crossorigin="anonymous"></script>
     <!-- font awesome -->
     <script src="https://kit.fontawesome.com/8ef3a8e20a.js" crossorigin="anonymous"></script>
+    <!-- tilt js -->
+    <!-- tilt js -->
+    <script type="text/javascript" src="vanilla-tilt.min.js"></script>
+    <script>
+        VanillaTilt.init(document.querySelector(".Portfolio"), {
+            max: 10,
+            speed: 1000,
+            scale: 1.1,
+        });
+    </script>
 
 </body>
 
